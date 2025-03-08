@@ -19,7 +19,6 @@
  */
 package com.github.namiuni.osakana.common;
 
-import com.github.namiuni.osakana.common.angler.AnglerService;
 import com.github.namiuni.osakana.common.command.OsakanaCommandManager;
 import com.github.namiuni.osakana.common.configuration.ConfigurationManager;
 import com.github.namiuni.osakana.common.datapack.DataPackManager;

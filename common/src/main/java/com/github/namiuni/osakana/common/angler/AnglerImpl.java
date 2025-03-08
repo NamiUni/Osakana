@@ -38,7 +38,7 @@ public final class AnglerImpl<T extends Audience> implements Angler<T> {
     }
 
     @Override
-    public T player() {
+    public @NotNull T player() {
         return this.player;
     }
 

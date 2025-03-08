@@ -51,7 +51,7 @@ public final class MiniPlaceholdersExpansion {
     }
 
     public void registerExpansion() {
-        if (miniPlaceholdersLoaded()) {
+        if (MiniPlaceholdersExpansion.miniPlaceholdersLoaded()) {
             final var expansion = Expansion.builder("osakana")
 //                    .audiencePlaceholder("lastfishtekina", (audience, queue, ctx) -> )
                 .build();
