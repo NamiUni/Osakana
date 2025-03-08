@@ -19,6 +19,8 @@
  */
 package com.github.namiuni.osakana.paper;
 
+import com.github.namiuni.osakana.api.Osakana;
+import com.github.namiuni.osakana.api.OsakanaProvider;
 import com.google.inject.Inject;
 import java.util.Set;
 import org.bukkit.event.Listener;
@@ -26,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public final class OsakanaPaperPlugin extends JavaPlugin {
+public final class OsakanaPaperPlugin extends JavaPlugin implements Osakana {
 
     private final Set<Listener> listeners;
 
@@ -37,7 +39,7 @@ public final class OsakanaPaperPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        // TODO    OsakanaProvider.register();
+         OsakanaProvider.register(this);
     }
 
     @Override
