@@ -43,12 +43,12 @@ public final class AnglerImpl<T extends Audience> implements Angler<T> {
     }
 
     @Override
-    public final UUID uuid() {
+    public UUID uuid() {
         return this.property.uuid();
     }
 
     @Override
-    public final boolean testBool() {
+    public boolean testBool() {
         return this.property.testBool();
     }
 
