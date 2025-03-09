@@ -16,7 +16,7 @@ cloud = "2.0.0"
 cloudMinecraft = "2.0.0-SNAPSHOT"
 paperApi = "1.21.4-R0.1-SNAPSHOT"
 # minecraft plugins
-miniPlaceholders = "2.2.3"
+miniPlaceholders = "2.3.0"
 
 # misc
 jspecify = "1.0.0"
