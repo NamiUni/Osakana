@@ -23,7 +23,7 @@ jspecify = "1.0.0"
 stylecheck = "10.21.4"
 gson = "2.12.1"
 guice = "7.0.1-SNAPSHOT"
-junit = "5.11.4"
+junit = "5.12.0"
 
 [libraries]
 # plugins
