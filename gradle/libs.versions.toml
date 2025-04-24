@@ -21,7 +21,7 @@ miniPlaceholders = "2.3.0"
 # misc
 jspecify = "1.0.0"
 stylecheck = "10.21.4"
-gson = "2.12.1"
+gson = "2.13.1"
 guice = "7.0.1-SNAPSHOT"
 junit = "5.12.0"
 
