@@ -8,7 +8,7 @@ resourceFactory = "1.2.0"
 
 # minecraft relateds
 minecraft = "1.21.4"
-adventure = "4.23.0"
+adventure = "4.24.0"
 moonshine = "2.0.4"
 configurate = "4.2.0"
 adventureSerializerConfigurate4 = "4.23.0"
