@@ -1,7 +1,7 @@
 [versions]
 # gradle plugins
 shadow = "9.0.0-SNAPSHOT"
-indra = "3.1.3"
+indra = "3.2.0"
 gremlin = "0.0.8"
 runTask = "2.3.1"
 resourceFactory = "1.2.0"
