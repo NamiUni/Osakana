@@ -11,13 +11,16 @@ plugins {
 
 dependencies {
     implementation(projects.osakanaApi)
+
     runtimeDownload(libs.guice) {
         exclude("com.google.guava")
     }
-    compileOnly(libs.paperApi)
     runtimeDownload(libs.configurateHocon) {
         exclude("net.kyori", "option")
     }
+
+    compileOnly(libs.paperApi)
+    compileOnly(libs.miniPlaceholders)
 }
 
 val mainPackage = "$group.osakana"
