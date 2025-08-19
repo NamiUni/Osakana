@@ -1,0 +1,49 @@
+[versions]
+# Tool
+checkstyle = "11.0.0"
+spotless = "7.2.1"
+shadow = "9.0.0"
+gremlin = "0.0.9"
+runTask = "2.3.1"
+resourceFactory = "1.3.0"
+
+# Java
+jspecify = "1.0.0"
+guice = "7.0.0"
+configurate = "4.2.0"
+adventure = "4.24.0"
+paperApi = "1.21.8-R0.1-SNAPSHOT"
+miniPlaceholders = "2.3.0"
+
+# Test
+junit = "5.13.4"
+
+[libraries]
+# Tool
+spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless"}
+
+# Java
+jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
+guice = { group = "com.google.inject", name = "guice", version.ref = "guice"}
+configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+
+adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
+paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paperApi"}
+miniPlaceholders = { group = "io.github.miniplaceholders", name = "miniplaceholders-api", version.ref = "miniPlaceholders" }
+
+# Test
+junit-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junit-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
+
+[bundles]
+testing = [
+    "junit-api",
+    "junit-engine"
+]
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+resourceFactory = { id = "xyz.jpenilla.resource-factory-paper-convention", version.ref = "resourceFactory" }
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runTask" }
+gremlin = { id = "xyz.jpenilla.gremlin-gradle", version.ref = "gremlin" }
