@@ -23,6 +23,13 @@ import com.google.inject.Inject;
 import io.github.namiuni.doburoku.annotation.annotations.ResourceBundle;
 import io.github.namiuni.doburoku.standard.DoburokuStandard;
 import io.github.namiuni.doburoku.standard.argument.MiniMessageArgumentTransformer;
+import io.github.namiuni.osakana.integration.MiniPlaceholdersExpansion;
+import java.util.ArrayList;
+import java.util.List;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.minimessage.translation.Argument;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -39,6 +46,14 @@ public interface MessageService {
         public MessageService get() {
             return DoburokuStandard.of(MessageService.class)
                     .argument(registry -> { }, MiniMessageArgumentTransformer.create())
+                    .result(registry -> registry
+                            .plus(Message.class, (method, component) -> audience -> {
+                                final List<ComponentLike> arguments = new ArrayList<>(component.arguments());
+                                arguments.add(Argument.tagResolver(MiniPlaceholdersExpansion.getAudiencePlaceholders(audience)));
+                                final TranslatableComponent result = Component.translatable(component.key(), arguments);
+
+                                audience.sendMessage(result);
+                            }))
                     .brew();
         }
     }
