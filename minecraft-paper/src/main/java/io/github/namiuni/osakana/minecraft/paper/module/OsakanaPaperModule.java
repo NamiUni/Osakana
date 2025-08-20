@@ -27,6 +27,7 @@ import io.github.namiuni.osakana.minecraft.paper.OsakanaPaperPlugin;
 import io.github.namiuni.osakana.minecraft.paper.module.annotations.DataDirectory;
 import io.github.namiuni.osakana.minecraft.paper.module.annotations.PluginName;
 import io.github.namiuni.osakana.translation.DynamicResourceBundleControl;
+import io.github.namiuni.osakana.translation.MessageService;
 import io.github.namiuni.osakana.translation.MiniMessageProvider;
 import io.github.namiuni.osakana.translation.TranslatorProvider;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
@@ -59,6 +60,7 @@ public final class OsakanaPaperModule extends AbstractModule {
         this.bind(ResourceBundle.Control.class).to(DynamicResourceBundleControl.class).in(Scopes.SINGLETON);
 
         this.bind(MiniMessage.class).toProvider(MiniMessageProvider.class).in(Scopes.SINGLETON);
+        this.bind(MessageService.class).toProvider(MessageService.Provider.class).in(Scopes.SINGLETON);
         this.bind(PrimaryConfig.class).toProvider(PrimaryConfig.Provider.class).in(Scopes.SINGLETON);
         this.bind(Translator.class).toProvider(TranslatorProvider.class).in(Scopes.SINGLETON);
 

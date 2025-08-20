@@ -28,7 +28,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore;
@@ -41,10 +40,9 @@ public final class TranslatorProvider implements Provider<Translator> {
 
     private final ComponentLogger logger;
     private final PrimaryConfig primaryConfig;
+    private final OsakanaKey osakanaKey;
     private final MiniMessage miniMessage;
     private final ResourceBundle.Control control;
-
-    private final Key key;
 
     @Inject
     private TranslatorProvider(
@@ -56,19 +54,19 @@ public final class TranslatorProvider implements Provider<Translator> {
     ) {
         this.logger = logger;
         this.primaryConfig = primaryConfig;
+        this.osakanaKey = osakanaKey;
         this.miniMessage = miniMessage;
         this.control = control;
-
-        this.key = osakanaKey.create("messages");
     }
 
     @Override
     public Translator get() {
-        final MiniMessageTranslationStore translationStore = MiniMessageTranslationStore.create(this.key, this.miniMessage);
+        final MiniMessageTranslationStore translationStore = MiniMessageTranslationStore.create(this.osakanaKey.create("message"), this.miniMessage);
         translationStore.defaultLocale(this.primaryConfig.defaultLocale());
 
+        final String baseName = MessageService.class.getAnnotation(io.github.namiuni.doburoku.annotation.annotations.ResourceBundle.class).baseName();
         final List<ResourceBundle> bundles = Locale.availableLocales()
-                .map(this::resourceBundle)
+                .map(locale -> this.resourceBundle(baseName, locale))
                 .filter(Objects::nonNull)
                 .distinct()
                 .toList();
@@ -85,7 +83,7 @@ public final class TranslatorProvider implements Provider<Translator> {
         return translationStore;
     }
 
-    private @Nullable ResourceBundle resourceBundle(final Locale locale) {
-        return ResourceBundle.getBundle("translations/%s".formatted(this.key.value()), locale, this.control);
+    private @Nullable ResourceBundle resourceBundle(final String baseName, final Locale locale) {
+        return ResourceBundle.getBundle(baseName, locale, this.control);
     }
 }

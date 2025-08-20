@@ -19,32 +19,27 @@
  */
 package io.github.namiuni.osakana.translation;
 
-import io.github.namiuni.osakana.integration.MiniPlaceholdersExpansion;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.minimessage.translation.Argument;
+import com.google.inject.Inject;
+import io.github.namiuni.doburoku.annotation.annotations.ResourceBundle;
+import io.github.namiuni.doburoku.standard.DoburokuStandard;
+import io.github.namiuni.doburoku.standard.argument.MiniMessageArgumentTransformer;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public final class MessageService {
+@ResourceBundle(baseName = "translations/messages")
+public interface MessageService {
 
-    private static final Function<Audience, TagResolver> MINI_PLACEHOLDERS_TAG = MiniPlaceholdersExpansion::getAudiencePlaceholders;
-    private static final Function<TranslatableComponent, Message> MESSAGE_FACTORY = component -> audience -> {
-        final List<ComponentLike> argumentsList = new ArrayList<>(component.arguments());
-        argumentsList.add(Argument.tagResolver(MINI_PLACEHOLDERS_TAG.apply(audience)));
+    final class Provider implements com.google.inject.Provider<MessageService> {
 
-        final ComponentLike[] arguments = argumentsList.toArray(ComponentLike[]::new);
-        final TranslatableComponent result = Component.translatable(component.key(), arguments);
+        @Inject
+        private Provider() {
+        }
 
-        audience.sendMessage(result);
-    };
-
-    private MessageService() {
+        @Override
+        public MessageService get() {
+            return DoburokuStandard.of(MessageService.class)
+                    .argument(registry -> { }, MiniMessageArgumentTransformer.create())
+                    .brew();
+        }
     }
 }

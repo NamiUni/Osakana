@@ -11,6 +11,8 @@ plugins {
 
 dependencies {
     implementation(projects.osakanaApi)
+    implementation(libs.doburokuStandard)
+    annotationProcessor(libs.doburokuAnnotationProcessor)
 
     runtimeDownload(libs.guice) {
         exclude("com.google.guava")

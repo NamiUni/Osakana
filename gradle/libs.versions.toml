@@ -14,6 +14,7 @@ configurate = "4.2.0"
 adventure = "4.24.0"
 paperApi = "1.21.8-R0.1-SNAPSHOT"
 miniPlaceholders = "2.3.0"
+doburoku = "1.0.0-SNAPSHOT"
 
 # Test
 junit = "5.13.4"
@@ -26,6 +27,8 @@ spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", v
 jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
 guice = { group = "com.google.inject", name = "guice", version.ref = "guice"}
 configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+doburokuStandard = { group = "io.github.namiuni", name = "doburoku-standard", version.ref = "doburoku"}
+doburokuAnnotationProcessor = { group = "io.github.namiuni", name = "doburoku-annotation-processor", version.ref = "doburoku"}
 
 adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
 paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paperApi"}
