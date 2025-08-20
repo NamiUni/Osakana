@@ -52,7 +52,7 @@ public final class OsakanaPaperModule extends AbstractModule {
         this.bind(ComponentLogger.class).toInstance(this.context.getLogger());
 
         this.configureListeners();
-         this.configureCommands();
+        this.configureCommands();
     }
 
     private void configureListeners() {
