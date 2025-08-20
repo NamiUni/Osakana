@@ -24,6 +24,8 @@ import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import io.github.namiuni.osakana.minecraft.paper.annotations.DataDirectory;
 import io.github.namiuni.osakana.minecraft.paper.annotations.PluginName;
+import io.github.namiuni.osakana.minecraft.paper.commands.AdminCommand;
+import io.github.namiuni.osakana.minecraft.paper.commands.OsakanaCommand;
 import io.github.namiuni.osakana.minecraft.paper.listeners.FishingHandler;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 import java.nio.file.Path;
@@ -50,10 +52,16 @@ public final class OsakanaPaperModule extends AbstractModule {
         this.bind(ComponentLogger.class).toInstance(this.context.getLogger());
 
         this.configureListeners();
+         this.configureCommands();
     }
 
     private void configureListeners() {
         final Multibinder<Listener> listeners = Multibinder.newSetBinder(this.binder(), Listener.class);
          listeners.addBinding().to(FishingHandler.class);
+    }
+
+    private void configureCommands() {
+        final Multibinder<OsakanaCommand> commands = Multibinder.newSetBinder(this.binder(), OsakanaCommand.class);
+        commands.addBinding().to(AdminCommand.class);
     }
 }
