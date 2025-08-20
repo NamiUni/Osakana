@@ -21,12 +21,17 @@ package io.github.namiuni.osakana.minecraft.paper;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import io.github.namiuni.osakana.config.ConfigModule;
 import io.github.namiuni.osakana.database.DatabaseModule;
+import io.github.namiuni.osakana.minecraft.paper.commands.OsakanaCommand;
 import io.github.namiuni.osakana.translation.TranslationModule;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import java.util.Set;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,6 +55,11 @@ public final class OsakanaPaperBootstrap implements PluginBootstrap {
 
         final Translator translator = this.injector.getInstance(Translator.class);
         GlobalTranslator.translator().addSource(translator);
+
+        context.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Set<OsakanaCommand> commands = this.injector.getInstance(Key.get(new TypeLiteral<>() { }));
+            commands.forEach(command -> event.registrar().register(command.create(), command.description(), command.aliases()));
+        });
     }
 
     @Override
