@@ -17,18 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.minecraft.paper.module.annotations;
+package io.github.namiuni.osakana.config;
 
-import com.google.inject.BindingAnnotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import org.jspecify.annotations.NullMarked;
-
-@NullMarked
-@BindingAnnotation
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface DataDirectory {
+public enum StorageType {
+    JSON,
+    MYSQL,
+    PSQL,
+    H2
 }

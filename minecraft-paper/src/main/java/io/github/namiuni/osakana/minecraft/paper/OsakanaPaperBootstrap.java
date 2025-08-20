@@ -21,7 +21,9 @@ package io.github.namiuni.osakana.minecraft.paper;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.github.namiuni.osakana.minecraft.paper.module.OsakanaPaperModule;
+import io.github.namiuni.osakana.config.ConfigModule;
+import io.github.namiuni.osakana.database.DatabaseModule;
+import io.github.namiuni.osakana.translation.TranslationModule;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
@@ -39,8 +41,12 @@ public final class OsakanaPaperBootstrap implements PluginBootstrap {
 
     @Override
     public void bootstrap(final BootstrapContext context) {
-        final OsakanaPaperModule module = new OsakanaPaperModule(context);
-        this.injector = Guice.createInjector(module);
+        this.injector = Guice.createInjector(
+                new OsakanaPaperModule(context),
+                new ConfigModule(),
+                new TranslationModule(),
+                new DatabaseModule()
+        );
 
         final Translator translator = this.injector.getInstance(Translator.class);
         GlobalTranslator.translator().addSource(translator);

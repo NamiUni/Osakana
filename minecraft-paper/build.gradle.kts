@@ -11,6 +11,7 @@ plugins {
 
 dependencies {
     implementation(projects.osakanaApi)
+    implementation(libs.caffeine)
     implementation(libs.doburokuStandard)
     annotationProcessor(libs.doburokuAnnotationProcessor)
 
@@ -20,6 +21,11 @@ dependencies {
     runtimeDownload(libs.configurateHocon) {
         exclude("net.kyori", "option")
     }
+    runtimeDownload(libs.hikariCP)
+    runtimeDownload(libs.jdbiCore)
+    runtimeDownload(libs.jdbiGuice)
+    runtimeDownload(libs.jdbiSqlObject)
+    runtimeDownload(libs.flyway)
 
     compileOnly(libs.paperApi)
     compileOnly(libs.miniPlaceholders)
@@ -53,6 +59,7 @@ configurations {
 
 tasks {
     shadowJar {
+        mergeServiceFiles()
         archiveBaseName = paperPluginYaml.name
         archiveClassifier = null as String?
         gremlin {
@@ -77,6 +84,7 @@ tasks {
 
     writeDependencies {
         repos.add("https://repo.maven.apache.org/maven2/")
+        repos.add("https://central.sonatype.com/repository/maven-snapshots/")
         repos.add("https://repo.papermc.io/repository/maven-public/")
     }
 }

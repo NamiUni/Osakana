@@ -64,7 +64,7 @@
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
         <module name="UnnecessarySemicolonInEnumeration"/>
         <module name="UnnecessarySemicolonInTryWithResources"/>
-        <module name="UnusedLambdaParameterShouldBeUnnamed"/>
+        <!--Java22 <module name="UnusedLambdaParameterShouldBeUnnamed"/>-->
         <module name="UnusedLocalVariable"/>
         <module name="WhenShouldBeUsed"/>
 

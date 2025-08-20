@@ -10,6 +10,10 @@ resourceFactory = "1.3.0"
 # Java
 jspecify = "1.0.0"
 guice = "7.0.0"
+caffeine = "3.2.2"
+hikariCP = "7.0.1"
+jdbi = "3.50.0-SNAPSHOT"
+flyway = "11.11.0"
 configurate = "4.2.0"
 adventure = "4.24.0"
 paperApi = "1.21.8-R0.1-SNAPSHOT"
@@ -26,6 +30,12 @@ spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", v
 # Java
 jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
 guice = { group = "com.google.inject", name = "guice", version.ref = "guice"}
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version.ref = "caffeine"}
+hikariCP = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikariCP"}
+jdbiCore = { group = "org.jdbi", name = "jdbi3-core", version.ref = "jdbi"}
+jdbiGuice = { group = "org.jdbi", name = "jdbi3-guice", version.ref = "jdbi"}
+jdbiSqlObject = { group = "org.jdbi", name = "jdbi3-sqlobject", version.ref = "jdbi"}
+flyway = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway"}
 configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
 doburokuStandard = { group = "io.github.namiuni", name = "doburoku-standard", version.ref = "doburoku"}
 doburokuAnnotationProcessor = { group = "io.github.namiuni", name = "doburoku-annotation-processor", version.ref = "doburoku"}
