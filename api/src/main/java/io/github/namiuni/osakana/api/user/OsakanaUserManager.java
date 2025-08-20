@@ -19,13 +19,21 @@
  */
 package io.github.namiuni.osakana.api.user;
 
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.identity.Identified;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * The abstract user of this plugin.
+ * Manager responsible for load/obtain {@link OsakanaUser}.
  */
 @NullMarked
-public interface OsakanaUser extends Audience, Identified {
+public interface OsakanaUserManager<O extends OsakanaUser> {
+
+    /**
+     * Gets the {@link OsakanaUser} for the provided user {@link UUID}.
+     *
+     * @param uuid the user's uuid
+     * @return the osakana user
+     */
+    CompletableFuture<O> user(UUID uuid);
 }
