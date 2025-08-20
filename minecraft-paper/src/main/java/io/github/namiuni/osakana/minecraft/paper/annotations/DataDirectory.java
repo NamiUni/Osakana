@@ -17,14 +17,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.translation;
+package io.github.namiuni.osakana.minecraft.paper.annotations;
 
-import io.github.namiuni.doburoku.annotation.annotations.ResourceBundle;
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@ResourceBundle(baseName = "translations/messages")
-public interface MessageService {
-
-
+@BindingAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface DataDirectory {
 }

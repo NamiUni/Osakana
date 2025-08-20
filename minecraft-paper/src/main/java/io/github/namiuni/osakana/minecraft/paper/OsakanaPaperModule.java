@@ -17,26 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.minecraft.paper.module;
+package io.github.namiuni.osakana.minecraft.paper;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
-import io.github.namiuni.osakana.config.PrimaryConfig;
+import io.github.namiuni.osakana.minecraft.paper.annotations.DataDirectory;
+import io.github.namiuni.osakana.minecraft.paper.annotations.PluginName;
 import io.github.namiuni.osakana.minecraft.paper.listeners.FishingHandler;
-import io.github.namiuni.osakana.minecraft.paper.OsakanaPaperPlugin;
-import io.github.namiuni.osakana.minecraft.paper.module.annotations.DataDirectory;
-import io.github.namiuni.osakana.minecraft.paper.module.annotations.PluginName;
-import io.github.namiuni.osakana.translation.DynamicResourceBundleControl;
-import io.github.namiuni.osakana.translation.MessageService;
-import io.github.namiuni.osakana.translation.MiniMessageProvider;
-import io.github.namiuni.osakana.translation.TranslatorProvider;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 import java.nio.file.Path;
-import java.util.ResourceBundle;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.translation.Translator;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NullMarked;
@@ -57,13 +48,6 @@ public final class OsakanaPaperModule extends AbstractModule {
         this.bind(Path.class).annotatedWith(DataDirectory.class).toInstance(this.context.getDataDirectory());
         this.bind(String.class).annotatedWith(PluginName.class).toInstance(this.context.getConfiguration().getName());
         this.bind(ComponentLogger.class).toInstance(this.context.getLogger());
-
-        this.bind(ResourceBundle.Control.class).to(DynamicResourceBundleControl.class).in(Scopes.SINGLETON);
-
-        this.bind(MiniMessage.class).toProvider(MiniMessageProvider.class).in(Scopes.SINGLETON);
-        this.bind(MessageService.class).toProvider(MessageService.Provider.class).in(Scopes.SINGLETON);
-        this.bind(PrimaryConfig.class).toProvider(PrimaryConfig.Provider.class).in(Scopes.SINGLETON);
-        this.bind(Translator.class).toProvider(TranslatorProvider.class).in(Scopes.SINGLETON);
 
         this.configureListeners();
     }

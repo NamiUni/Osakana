@@ -17,25 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.minecraft.paper;
+package io.github.namiuni.osakana.database;
 
-import com.google.inject.Inject;
-import io.github.namiuni.osakana.minecraft.paper.module.annotations.PluginName;
-import net.kyori.adventure.key.Key;
-import org.intellij.lang.annotations.Subst;
+import io.github.namiuni.osakana.database.annotations.GuiceJdbi;
+import javax.sql.DataSource;
+import org.jdbi.v3.guice.AbstractJdbiDefinitionModule;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public final class OsakanaKey {
+public final class DatabaseModule extends AbstractJdbiDefinitionModule {
 
-    private final String namespace;
-
-    @Inject
-    private OsakanaKey(final @PluginName String pluginName) {
-        this.namespace = pluginName.toLowerCase();
+    public DatabaseModule() {
+        super(GuiceJdbi.class);
     }
 
-    public Key create(final @Subst("key") String value) {
-        return Key.key(this.namespace, value);
+    @Override
+    public void configureJdbi() {
+        this.bindPlugin().toInstance(new SqlObjectPlugin());
+        this.bind(DataSource.class).annotatedWith(GuiceJdbi.class).toProvider(DataSourceProvider.class);
     }
 }

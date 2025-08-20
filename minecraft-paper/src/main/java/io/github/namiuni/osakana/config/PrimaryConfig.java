@@ -19,20 +19,12 @@
  */
 package io.github.namiuni.osakana.config;
 
-import com.google.inject.Inject;
 import io.github.namiuni.osakana.config.annotations.ConfigFile;
 import io.github.namiuni.osakana.config.annotations.ConfigHeader;
-import io.github.namiuni.osakana.config.serializers.LocaleSerializer;
-import io.github.namiuni.osakana.minecraft.paper.module.annotations.DataDirectory;
-import java.nio.file.Path;
 import java.util.Locale;
 import org.jspecify.annotations.NullMarked;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
-import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 
 @NullMarked
 @ConfigFile("config.conf")
@@ -43,51 +35,41 @@ import org.spongepowered.configurate.transformation.ConfigurationTransformation;
         """)
 @ConfigSerializable
 public record PrimaryConfig(
-        @Comment("The default locale for plugin messages.") Locale defaultLocale
+        @Comment("The default locale for plugin messages.")
+        Locale defaultLocale,
+
+        @Comment("Configures the database connection.")
+        DatabaseSettings database
 ) {
 
-    public static final PrimaryConfig DEFAULT = new PrimaryConfig(Locale.US);
+    @ConfigSerializable
+    public record DatabaseSettings(
 
-    public static final class Provider implements com.google.inject.Provider<PrimaryConfig> {
+            @Comment("The storage type for saving plugin information.")
+            StorageType storageType,
 
-        private final PrimaryConfig primaryConfig;
+            @Comment("""
+                JDBC URL. Suggested defaults for each DB:
+                MySQL: jdbc:mysql://host:3306/DB
+                MariaDB: jdbc:mariadb://host:3306/DB
+                PostgreSQL: jdbc:postgresql://host:5432/database
+                """)
+            String url,
 
-        @Inject
-        private Provider(final @DataDirectory Path dataDirectory, final LocaleSerializer localeSerializer) throws ConfigurateException {
-            final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                    .prettyPrinting(true)
-                    .defaultOptions(options -> options
-                            .shouldCopyDefaults(true)
-                            .header(PrimaryConfig.class.getAnnotation(ConfigHeader.class).value())
-                            .serializers(builder -> builder.register(Locale.class, localeSerializer)))
-                    .path(dataDirectory.resolve(PrimaryConfig.class.getAnnotation(ConfigFile.class).value()))
-                    .build();
+            @Comment("The connection username.")
+            String username,
 
-            final ConfigurationNode node = loader.load();
-            final PrimaryConfig config = node.get(PrimaryConfig.class, PrimaryConfig.DEFAULT);
-
-            final ConfigurationNode updateNode = this.updateNode(node);
-            loader.save(updateNode);
-            this.primaryConfig = config;
-        }
-
-        @Override
-        public PrimaryConfig get() {
-            return this.primaryConfig;
-        }
-
-        private <N extends ConfigurationNode> N updateNode(final N node) throws ConfigurateException {
-            if (!node.virtual()) {
-                final ConfigurationTransformation.Versioned trans = this.version();
-                trans.apply(node);
-            }
-            return node;
-        }
-
-        private ConfigurationTransformation.Versioned version() {
-            return ConfigurationTransformation.versionedBuilder()
-                    .addVersion(0, ConfigurationTransformation.builder().build())
-                    .build();
-        }
+            @Comment("The connection password.")
+            String password
+    ) {
     }
+
+    public static final PrimaryConfig DEFAULT = new PrimaryConfig(
+            Locale.US,
+            new DatabaseSettings(
+                    StorageType.MYSQL,
+                    "jdbc:mysql://localhost:3306/osakana",
+                    "username",
+                    "password")
+    );
 }

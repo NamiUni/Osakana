@@ -20,7 +20,7 @@
 package io.github.namiuni.osakana.translation;
 
 import com.google.inject.Inject;
-import io.github.namiuni.osakana.minecraft.paper.module.annotations.DataDirectory;
+import io.github.namiuni.osakana.minecraft.paper.annotations.DataDirectory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

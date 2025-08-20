@@ -17,14 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.translation;
+package io.github.namiuni.osakana.utility;
 
-import io.github.namiuni.doburoku.annotation.annotations.ResourceBundle;
+import com.google.inject.Inject;
+import io.github.namiuni.osakana.minecraft.paper.annotations.PluginName;
+import net.kyori.adventure.key.Key;
+import org.intellij.lang.annotations.Subst;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@ResourceBundle(baseName = "translations/messages")
-public interface MessageService {
+public final class OsakanaKey {
 
+    private final String namespace;
 
+    @Inject
+    private OsakanaKey(final @PluginName String pluginName) {
+        this.namespace = pluginName.toLowerCase();
+    }
+
+    public Key create(final @Subst("key") String value) {
+        return Key.key(this.namespace, value);
+    }
 }
