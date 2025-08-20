@@ -23,6 +23,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import io.github.namiuni.osakana.config.PrimaryConfig;
+import io.github.namiuni.osakana.minecraft.paper.listeners.FishingHandler;
 import io.github.namiuni.osakana.minecraft.paper.OsakanaPaperPlugin;
 import io.github.namiuni.osakana.minecraft.paper.module.annotations.DataDirectory;
 import io.github.namiuni.osakana.minecraft.paper.module.annotations.PluginName;
@@ -69,6 +70,6 @@ public final class OsakanaPaperModule extends AbstractModule {
 
     private void configureListeners() {
         final Multibinder<Listener> listeners = Multibinder.newSetBinder(this.binder(), Listener.class);
-        // listeners.addBinding().to(/* listener class */);
+         listeners.addBinding().to(FishingHandler.class);
     }
 }
