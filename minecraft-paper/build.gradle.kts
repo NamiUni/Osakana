@@ -75,9 +75,7 @@ tasks {
         systemProperty("log4j.configurationFile", "log4j2.xml")
         downloadPlugins {
             modrinth("luckperms", "v5.5.0-bukkit")
-            url("https://ci.codemc.io/job/MiniPlaceholders/job/MiniPlaceholders/14/artifact/jar/MiniPlaceholders-Paper-2.3.1-SNAPSHOT.jar")
-            github("MiniPlaceholders", "Player-Expansion", "1.2.0", "MiniPlaceholders-Player-Expansion-1.2.0.jar")
-            github("MiniPlaceholders", "PlaceholderAPI-Expansion", "1.2.0", "PlaceholderAPI-Expansion-1.2.0.jar")
+            modrinth("miniplaceholders", "MU3nkszR")
             hangar("PlaceholderAPI", "2.11.6")
         }
     }

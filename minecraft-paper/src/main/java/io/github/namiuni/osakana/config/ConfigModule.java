@@ -36,6 +36,7 @@ import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 
 @NullMarked
+@SuppressWarnings("unused")
 public final class ConfigModule extends AbstractModule {
 
     public ConfigModule() {
