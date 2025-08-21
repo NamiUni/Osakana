@@ -44,16 +44,7 @@ public final class ConfigModule extends AbstractModule {
 
     @Provides
     @Singleton
-    private PrimaryConfig primaryConfig(final @DataDirectory Path dataDirectory, final LocaleSerializer localeSerializer) throws ConfigurateException {
-        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .prettyPrinting(true)
-                .defaultOptions(options -> options
-                        .shouldCopyDefaults(true)
-                        .header(PrimaryConfig.class.getAnnotation(ConfigHeader.class).value())
-                        .serializers(builder -> builder.register(Locale.class, localeSerializer)))
-                .path(dataDirectory.resolve(PrimaryConfig.class.getAnnotation(ConfigFile.class).value()))
-                .build();
-
+    private PrimaryConfig primaryConfig(final ConfigurationLoader<?> loader) throws ConfigurateException {
         final ConfigurationNode node = loader.load();
         final PrimaryConfig config = node.get(PrimaryConfig.class, PrimaryConfig.DEFAULT);
 
