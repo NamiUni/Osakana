@@ -20,7 +20,6 @@
 package io.github.namiuni.osakana.integration;
 
 import io.github.miniplaceholders.api.MiniPlaceholders;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.jspecify.annotations.NullMarked;
@@ -35,9 +34,9 @@ public final class MiniPlaceholdersExpansion {
         return Bukkit.getPluginManager().isPluginEnabled("MiniPlaceholders");
     }
 
-    public static TagResolver getAudiencePlaceholders(final Audience audience) {
+    public static TagResolver placeholders() {
         if (MiniPlaceholdersExpansion.miniPlaceholdersLoaded()) {
-            return MiniPlaceholders.getAudienceGlobalPlaceholders(audience);
+            return MiniPlaceholders.audiencePlaceholders();
         }
 
         return TagResolver.empty();

@@ -43,10 +43,10 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.translation.Argument;
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore;
 import net.kyori.adventure.translation.Translator;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
+@SuppressWarnings("unused")
 public final class TranslationModule extends AbstractModule {
 
     public TranslationModule() {
@@ -86,7 +86,12 @@ public final class TranslationModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.bind(MiniMessage.class).toInstance(MiniMessage.builder()
+        this.bind(MiniMessage.class).toInstance(this.miniMessage());
+        this.bind(MessageService.class).toInstance(this.messageService());
+    }
+
+    private MiniMessage miniMessage() {
+        return MiniMessage.builder()
                 .tags(TagResolver.standard())
                 .tags(TagResolver.builder()
                         .resolver(Placeholder.styling("error", TextColor.color(Integer.parseInt("ff4b00", 16))))
@@ -94,21 +99,22 @@ public final class TranslationModule extends AbstractModule {
                         .resolver(Placeholder.styling("info", TextColor.color(Integer.parseInt("00b06b", 16))))
                         .resolver(Placeholder.styling("debug", TextColor.color(Integer.parseInt("1971ff", 16))))
                         .build())
-                .build());
+                .build();
+    }
 
-        this.bind(MessageService.class).toInstance(DoburokuStandard.of(MessageService.class)
-                .argument(registry -> {
-                    registry.plus(Player.class, (__, player) -> player.displayName());
-                }, MiniMessageArgumentTransformer.create())
+    private MessageService messageService() {
+        return DoburokuStandard.of(MessageService.class)
+                .argument(registry -> { }, MiniMessageArgumentTransformer.create())
                 .result(registry -> registry
                         .plus(Message.class, (__, component) -> audience -> {
                             final List<ComponentLike> arguments = new ArrayList<>(component.arguments());
-                            arguments.add(Argument.tagResolver(MiniPlaceholdersExpansion.getAudiencePlaceholders(audience)));
+                            arguments.add(Argument.tagResolver(MiniPlaceholdersExpansion.placeholders()));
+                            arguments.add(Argument.target(audience));
+
                             final TranslatableComponent result = Component.translatable(component.key(), arguments);
 
                             audience.sendMessage(result);
                         }))
-                .brew());
-
+                .brew();
     }
 }
