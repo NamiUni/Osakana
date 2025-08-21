@@ -97,7 +97,7 @@ public final class TranslationModule extends AbstractModule {
                         .tag("error", Tag.styling(builder -> builder.color(TextColor.color(0xFF4B00))))
                         .tag("warn", Tag.styling(builder -> builder.color(TextColor.color(0xF6AA00))))
                         .tag("info", Tag.styling(builder -> builder.color(TextColor.color(0x00B06B))))
-                        .tag("debug", Tag.styling(builder -> builder.color(TextColor.color(0x00B06B))))
+                        .tag("debug", Tag.styling(builder -> builder.color(TextColor.color(0x1971FF))))
                         .build())
                 .build();
     }
