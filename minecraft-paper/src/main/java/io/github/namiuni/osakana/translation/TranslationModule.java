@@ -38,7 +38,7 @@ import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.translation.Argument;
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore;
@@ -94,10 +94,10 @@ public final class TranslationModule extends AbstractModule {
         return MiniMessage.builder()
                 .tags(TagResolver.standard())
                 .tags(TagResolver.builder()
-                        .resolver(Placeholder.styling("error", TextColor.color(Integer.parseInt("ff4b00", 16))))
-                        .resolver(Placeholder.styling("warn", TextColor.color(Integer.parseInt("f2e700", 16))))
-                        .resolver(Placeholder.styling("info", TextColor.color(Integer.parseInt("00b06b", 16))))
-                        .resolver(Placeholder.styling("debug", TextColor.color(Integer.parseInt("1971ff", 16))))
+                        .tag("error", Tag.styling(builder -> builder.color(TextColor.color(0xFF4B00))))
+                        .tag("warn", Tag.styling(builder -> builder.color(TextColor.color(0xF6AA00))))
+                        .tag("info", Tag.styling(builder -> builder.color(TextColor.color(0x00B06B))))
+                        .tag("debug", Tag.styling(builder -> builder.color(TextColor.color(0x00B06B))))
                         .build())
                 .build();
     }
