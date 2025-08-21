@@ -94,10 +94,10 @@ public final class TranslationModule extends AbstractModule {
         return MiniMessage.builder()
                 .tags(TagResolver.standard())
                 .tags(TagResolver.builder()
-                        .tag("error", Tag.styling(builder -> builder.color(TextColor.color(0xFF4B00))))
-                        .tag("warn", Tag.styling(builder -> builder.color(TextColor.color(0xF6AA00))))
-                        .tag("info", Tag.styling(builder -> builder.color(TextColor.color(0x00B06B))))
-                        .tag("debug", Tag.styling(builder -> builder.color(TextColor.color(0x1971FF))))
+                        .tag("error", Tag.styling(TextColor.color(0xFF4B00)))
+                        .tag("warn", Tag.styling(TextColor.color(0xF6AA00)))
+                        .tag("info", Tag.styling(TextColor.color(0x00B06B)))
+                        .tag("debug", Tag.styling(TextColor.color(0x1971FF)))
                         .build())
                 .build();
     }
