@@ -17,7 +17,7 @@ flyway = "11.11.1"
 configurate = "4.2.0"
 adventure = "4.24.0"
 paperApi = "1.21.8-R0.1-SNAPSHOT"
-miniPlaceholders = "3.0.0"
+miniPlaceholders = "3.0.1"
 doburoku = "1.0.0-SNAPSHOT"
 
 # Test
