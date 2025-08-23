@@ -21,67 +21,39 @@ package io.github.namiuni.osakana.translation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import io.github.namiuni.doburoku.standard.DoburokuStandard;
 import io.github.namiuni.doburoku.standard.argument.MiniMessageArgumentTransformer;
-import io.github.namiuni.osakana.config.PrimaryConfig;
 import io.github.namiuni.osakana.integration.MiniPlaceholdersExpansion;
 import io.github.namiuni.osakana.utility.OsakanaKey;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.translation.Argument;
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore;
-import net.kyori.adventure.translation.Translator;
+import net.kyori.adventure.translation.TranslationStore;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 @SuppressWarnings("unused")
-public final class TranslationModule extends AbstractModule {
+public final class GuiceTranslationModule extends AbstractModule {
 
-    public TranslationModule() {
+    public GuiceTranslationModule() {
     }
 
     @Provides
-    private List<ResourceBundle> bundles(final ResourceBundle.Control control) {
-        final String baseName = MessageService.class.getAnnotation(io.github.namiuni.doburoku.annotation.annotations.ResourceBundle.class).baseName();
-        return Locale.availableLocales()
-                .map(locale -> ResourceBundle.getBundle(baseName, locale, control))
-                .filter(Objects::nonNull)
-                .distinct()
-                .toList();
-    }
-
-    @Provides
-    private Translator translator(
-            final ComponentLogger logger,
-            final PrimaryConfig primaryConfig,
+    @Singleton
+    private TranslationStore.StringBased<?> translationStore(
             final OsakanaKey osakanaKey,
-            final MiniMessage miniMessage,
-            final List<ResourceBundle> bundles
+            final MiniMessage miniMessage
     ) {
-        final MiniMessageTranslationStore translationStore = MiniMessageTranslationStore.create(osakanaKey.create("message"), miniMessage);
-        translationStore.defaultLocale(primaryConfig.defaultLocale());
-
-        bundles.forEach(bundle -> translationStore.registerAll(bundle.getLocale(), bundle, false));
-        final String localeNames = bundles.stream()
-                .map(ResourceBundle::getLocale)
-                .map(Object::toString)
-                .collect(Collectors.joining(", "));
-
-        logger.info("Loaded {} translations: [{}]", bundles.size(), localeNames);
-
-        return translationStore;
+        return MiniMessageTranslationStore.create(osakanaKey.create("message"), miniMessage);
     }
 
     @Override

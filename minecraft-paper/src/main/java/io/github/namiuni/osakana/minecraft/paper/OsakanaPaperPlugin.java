@@ -33,14 +33,24 @@ import org.jspecify.annotations.NullMarked;
 public final class OsakanaPaperPlugin extends JavaPlugin {
 
     final Set<Listener> listeners;
+    final OsakanaServiceLifecycleManager lifecycleManager;
 
     @Inject
-    private OsakanaPaperPlugin(final Set<Listener> listeners) {
+    private OsakanaPaperPlugin(
+            final Set<Listener> listeners,
+            final OsakanaServiceLifecycleManager lifecycleManager
+    ) {
         this.listeners = listeners;
+        this.lifecycleManager = lifecycleManager;
     }
 
     @Override
     public void onEnable() {
         this.listeners.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+    }
+
+    @Override
+    public void onDisable() {
+        this.lifecycleManager.shutdown();
     }
 }

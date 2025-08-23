@@ -17,24 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.database;
+package io.github.namiuni.osakana.api.user;
 
-import io.github.namiuni.osakana.database.annotations.GuiceJdbi;
-import javax.sql.DataSource;
-import org.jdbi.v3.guice.AbstractJdbiDefinitionModule;
-import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
+/**
+ * Manager responsible for load/obtain {@link OsakanaUser}.
+ */
 @NullMarked
-public final class DatabaseModule extends AbstractJdbiDefinitionModule {
+public interface OsakanaUserService {
 
-    public DatabaseModule() {
-        super(GuiceJdbi.class);
-    }
-
-    @Override
-    public void configureJdbi() {
-        this.bindPlugin().toInstance(new SqlObjectPlugin());
-        this.bind(DataSource.class).annotatedWith(GuiceJdbi.class).toProvider(DataSourceProvider.class);
-    }
+    /**
+     * Gets the {@link OsakanaUser} for the provided user {@link UUID}.
+     *
+     * @param uuid the user's uuid
+     * @return the osakana user
+     */
+    CompletableFuture<@Nullable OsakanaUser> loadUser(UUID uuid);
 }

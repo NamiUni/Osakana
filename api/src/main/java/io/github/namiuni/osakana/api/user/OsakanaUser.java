@@ -19,8 +19,12 @@
  */
 package io.github.namiuni.osakana.api.user;
 
+import java.util.Locale;
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identified;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -28,4 +32,38 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public interface OsakanaUser extends Audience, Identified {
+
+    /**
+     * Gets the uuid of this user.
+     *
+     * @return the uuid
+     */
+    UUID uuid();
+
+    /**
+     * Gets the "friendly" name to display of this user.
+     *
+     * @return the display name
+     */
+    default Component displayName() {
+        return this.getOrDefault(Identity.DISPLAY_NAME, Component.text("UnknownOsakanaUser"));
+    }
+
+    /**
+     * Gets the name of this user.
+     *
+     * @return the name
+     */
+    default String name() {
+        return this.getOrDefault(Identity.NAME, "UnknownOsakanaUser");
+    }
+
+    /**
+     * Gets the locale of this user.
+     *
+     * @return the locale
+     */
+    default Locale locale() {
+        return this.getOrDefault(Identity.LOCALE, Locale.ROOT);
+    }
 }

@@ -17,23 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.api.user;
+package io.github.namiuni.osakana.minecraft.paper.utility;
 
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.jspecify.annotations.NullMarked;
 
-/**
- * Manager responsible for load/obtain {@link OsakanaUser}.
- */
+@Singleton
 @NullMarked
-public interface OsakanaUserManager<O extends OsakanaUser> {
+public final class OsakanaPaperScheduler {
 
-    /**
-     * Gets the {@link OsakanaUser} for the provided user {@link UUID}.
-     *
-     * @param uuid the user's uuid
-     * @return the osakana user
-     */
-    CompletableFuture<O> user(UUID uuid);
+    private final Provider<Plugin> plugin;
+
+    @Inject
+    private OsakanaPaperScheduler(final Provider<Plugin> plugin) {
+        this.plugin = plugin;
+    }
+
+    public BukkitTask runTask(final Runnable task) {
+        return Bukkit.getScheduler().runTask(this.plugin.get(), task);
+    }
+
+    public BukkitTask runTaskLater(final Runnable task, final long delay) {
+        return Bukkit.getScheduler().runTaskLater(this.plugin.get(), task, delay);
+    }
 }

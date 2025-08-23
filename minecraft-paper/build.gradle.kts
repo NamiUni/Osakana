@@ -9,9 +9,13 @@ plugins {
     alias(libs.plugins.gremlin)
 }
 
+val projectVersion: String by project
+version = projectVersion
+
 dependencies {
     implementation(projects.osakanaApi)
     implementation(libs.caffeine)
+    implementation(libs.fastUuid)
     implementation(libs.doburokuStandard)
     annotationProcessor(libs.doburokuAnnotationProcessor)
 
@@ -21,11 +25,22 @@ dependencies {
     runtimeDownload(libs.configurateHocon) {
         exclude("net.kyori", "option")
     }
+    runtimeDownload(libs.mysql)
+    runtimeDownload(libs.mariadb)
+    runtimeDownload(libs.postgresql)
+    runtimeDownload(libs.h2)
     runtimeDownload(libs.hikariCP)
     runtimeDownload(libs.jdbiCore)
     runtimeDownload(libs.jdbiGuice)
     runtimeDownload(libs.jdbiSqlObject)
+    runtimeDownload(libs.jdbiPostgres)
     runtimeDownload(libs.flyway)
+    runtimeDownload(libs.flywayMysql) {
+        isTransitive = false
+    }
+    runtimeDownload(libs.flywayPostgres) {
+        isTransitive = false
+    }
 
     compileOnly(libs.paperApi)
     compileOnly(libs.miniPlaceholders)
@@ -58,6 +73,11 @@ configurations {
 }
 
 tasks {
+
+    compileJava {
+        options.compilerArgs.add("-parameters")
+    }
+
     shadowJar {
         mergeServiceFiles()
         archiveBaseName = paperPluginYaml.name
