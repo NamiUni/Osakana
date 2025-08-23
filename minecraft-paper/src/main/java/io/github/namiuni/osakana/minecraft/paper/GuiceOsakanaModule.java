@@ -26,6 +26,7 @@ import io.github.namiuni.osakana.minecraft.paper.annotations.DataDirectory;
 import io.github.namiuni.osakana.minecraft.paper.annotations.PluginName;
 import io.github.namiuni.osakana.minecraft.paper.commands.AdminCommand;
 import io.github.namiuni.osakana.minecraft.paper.commands.OsakanaCommand;
+import io.github.namiuni.osakana.minecraft.paper.listeners.ConnectionListener;
 import io.github.namiuni.osakana.minecraft.paper.listeners.FishingHandler;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 import java.nio.file.Path;
@@ -36,11 +37,11 @@ import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 @SuppressWarnings("UnstableApiUsage")
-public final class OsakanaPaperModule extends AbstractModule {
+public final class GuiceOsakanaModule extends AbstractModule {
 
     private final PluginProviderContext context;
 
-    public OsakanaPaperModule(final PluginProviderContext context) {
+    public GuiceOsakanaModule(final PluginProviderContext context) {
         this.context = context;
     }
 
@@ -57,11 +58,12 @@ public final class OsakanaPaperModule extends AbstractModule {
 
     private void configureListeners() {
         final Multibinder<Listener> listeners = Multibinder.newSetBinder(this.binder(), Listener.class);
-         listeners.addBinding().to(FishingHandler.class);
+         listeners.addBinding().to(FishingHandler.class).in(Scopes.SINGLETON);
+         listeners.addBinding().to(ConnectionListener.class).in(Scopes.SINGLETON);
     }
 
     private void configureCommands() {
         final Multibinder<OsakanaCommand> commands = Multibinder.newSetBinder(this.binder(), OsakanaCommand.class);
-        commands.addBinding().to(AdminCommand.class);
+        commands.addBinding().to(AdminCommand.class).in(Scopes.SINGLETON);
     }
 }

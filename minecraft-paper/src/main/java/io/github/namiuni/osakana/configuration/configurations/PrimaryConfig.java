@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.config;
+package io.github.namiuni.osakana.configuration.configurations;
 
-import io.github.namiuni.osakana.config.annotations.ConfigFile;
-import io.github.namiuni.osakana.config.annotations.ConfigHeader;
+import io.github.namiuni.osakana.configuration.annotations.ConfigFile;
+import io.github.namiuni.osakana.configuration.annotations.ConfigHeader;
 import java.util.Locale;
 import org.jspecify.annotations.NullMarked;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -45,14 +45,12 @@ public record PrimaryConfig(
     @ConfigSerializable
     public record DatabaseSettings(
 
-            @Comment("The storage type for saving plugin information.")
-            StorageType storageType,
-
             @Comment("""
-                JDBC URL. Suggested defaults for each DB:
-                MySQL: jdbc:mysql://host:3306/DB
-                MariaDB: jdbc:mariadb://host:3306/DB
-                PostgreSQL: jdbc:postgresql://host:5432/database
+                JDBC URL. e.g.:
+                MySQL: jdbc:mysql://localhost:3306/osakana
+                MariaDB: jdbc:mariadb://localhost:3306/osakana
+                PostgreSQL: jdbc:postgresql://localhost:3306/osakana
+                H2: jdbc:h2:{plugin_directory}/osakana-h2;MODE=MySQL
                 """)
             String url,
 
@@ -67,9 +65,8 @@ public record PrimaryConfig(
     public static final PrimaryConfig DEFAULT = new PrimaryConfig(
             Locale.US,
             new DatabaseSettings(
-                    StorageType.MYSQL,
-                    "jdbc:mysql://localhost:3306/osakana",
-                    "username",
-                    "password")
+                    "jdbc:h2:{plugin_directory}/osakana-h2;MODE=MySQL",
+                    "",
+                    "")
     );
 }

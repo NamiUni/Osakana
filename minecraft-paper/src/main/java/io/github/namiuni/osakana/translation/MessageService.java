@@ -19,12 +19,19 @@
  */
 package io.github.namiuni.osakana.translation;
 
+import io.github.namiuni.doburoku.annotation.Locales;
+import io.github.namiuni.doburoku.annotation.annotations.Key;
 import io.github.namiuni.doburoku.annotation.annotations.ResourceBundle;
+import io.github.namiuni.doburoku.annotation.annotations.Value;
+import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 @ResourceBundle(baseName = "translations/messages")
 public interface MessageService {
 
-
+    @Key("osakana.kick.user_data.load.failed")
+    @Value(locale = Locales.EN_US, content = "Failed to load user data.")
+    @Value(locale = Locales.JA_JP, content = "ユーザーデータの読み込みに失敗しました。")
+    Component kickUserDataLoadFailed();
 }

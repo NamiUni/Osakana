@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.config.annotations;
+package io.github.namiuni.osakana.configuration.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,7 +28,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ConfigFile {
+public @interface ConfigHeader {
 
     String value();
 }

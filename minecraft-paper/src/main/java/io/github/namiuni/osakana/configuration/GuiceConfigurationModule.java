@@ -17,14 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.github.namiuni.osakana.config;
+package io.github.namiuni.osakana.configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import io.github.namiuni.osakana.config.annotations.ConfigFile;
-import io.github.namiuni.osakana.config.annotations.ConfigHeader;
-import io.github.namiuni.osakana.config.serializers.LocaleSerializer;
+import io.github.namiuni.osakana.configuration.annotations.ConfigFile;
+import io.github.namiuni.osakana.configuration.annotations.ConfigHeader;
+import io.github.namiuni.osakana.configuration.configurations.PrimaryConfig;
+import io.github.namiuni.osakana.configuration.serializers.LocaleSerializer;
 import io.github.namiuni.osakana.minecraft.paper.annotations.DataDirectory;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -37,23 +38,25 @@ import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 
 @NullMarked
 @SuppressWarnings("unused")
-public final class ConfigModule extends AbstractModule {
+public final class GuiceConfigurationModule extends AbstractModule {
 
-    public ConfigModule() {
+    public GuiceConfigurationModule() {
     }
 
     @Provides
     @Singleton
-    private PrimaryConfig primaryConfig(final ConfigurationLoader<?> loader) throws ConfigurateException {
-        final ConfigurationNode node = loader.load();
-        final PrimaryConfig config = node.get(PrimaryConfig.class, PrimaryConfig.DEFAULT);
-
-        final ConfigurationNode updateNode = this.updateNode(node);
-        loader.save(updateNode);
-        return config;
+    private PrimaryConfig primaryConfig(final ConfigurationNode node) throws ConfigurateException {
+        return node.get(PrimaryConfig.class, PrimaryConfig.DEFAULT);
     }
 
     @Provides
+    @Singleton
+    private ConfigurationNode node(final ConfigurationLoader<?> loader) throws ConfigurateException {
+        return loader.load();
+    }
+
+    @Provides
+    @Singleton
     private ConfigurationLoader<?> loader(final @DataDirectory Path dataDirectory, final LocaleSerializer localeSerializer) {
         return HoconConfigurationLoader.builder()
                 .prettyPrinting(true)
@@ -65,12 +68,9 @@ public final class ConfigModule extends AbstractModule {
                 .build();
     }
 
-    private <N extends ConfigurationNode> N updateNode(final N node) throws ConfigurateException {
-        if (!node.virtual()) {
-            final ConfigurationTransformation.Versioned trans = this.version();
-            trans.apply(node);
-        }
-        return node;
+    @Override
+    protected void configure() {
+        this.bind(ConfigurationTransformation.Versioned.class).toInstance(this.version());
     }
 
     private ConfigurationTransformation.Versioned version() {
