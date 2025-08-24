@@ -17,6 +17,7 @@ import org.flywaydb.core.api.logging.Log;
 import org.flywaydb.core.api.logging.LogFactory;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.h2.H2DatabasePlugin;
+import org.jdbi.v3.core.statement.Slf4JSqlLogger;
 import org.jdbi.v3.postgres.PostgresPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.jspecify.annotations.NullMarked;
@@ -64,6 +65,7 @@ public final class UserServiceLifecycleManager implements OsakanaLifecycleManage
 
         // Initialize Jdbi
         final Jdbi jdbi = this.jdbiProvider.get();
+        jdbi.setSqlLogger(new Slf4JSqlLogger(this.logger));
         jdbi.installPlugin(new SqlObjectPlugin());
         switch (this.databaseType) {
             case H2 -> jdbi.installPlugin(new H2DatabasePlugin());
