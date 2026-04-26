@@ -30,7 +30,7 @@ miniPlaceholders = "3.0.1"
 doburoku = "1.0.0-SNAPSHOT"
 
 # Test
-junit = "5.13.4"
+junit = "5.14.4"
 
 [libraries]
 # Tool
