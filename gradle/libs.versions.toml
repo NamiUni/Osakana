@@ -16,7 +16,7 @@ fastUuid = "0.2.0"
 # Database
 h2 = "2.3.232"
 mysql = "9.4.0"
-mariadb = "3.5.5"
+mariadb = "3.5.10"
 postgresql = "42.7.7"
 hikariCP = "7.0.2"
 jdbi = "3.50.0-SNAPSHOT"
