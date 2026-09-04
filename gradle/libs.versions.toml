@@ -1,7 +1,7 @@
 [versions]
 # Tool
 checkstyle = "11.0.0"
-spotless = "7.2.1"
+spotless = "8.10.2"
 shadow = "9.0.2"
 gremlin = "0.0.9"
 runTask = "2.3.1"
